@@ -17,6 +17,7 @@ class SnapSelect {
     this.dropdown = dropdown
     this.menu = document.createElement("div")
     this.selected = document.createElement("div");
+    this.currentFocus = -1;
     this.init()
   }
 
@@ -67,6 +68,10 @@ class SnapSelect {
 
     search.addEventListener("input", () => {
       this.filterItems(search.value)
+    });
+
+    menu.addEventListener("keydown", (e) => {
+      this.handleKeyDown(e, menuInnerWrapper);
     });
 
     document.addEventListener("click", (e) => {
@@ -135,6 +140,42 @@ class SnapSelect {
     ) {
       menu.style.display = "none";
     }
+  }
+
+handleSearchKeyDown(e, menuInnerWrapper) {
+    const items = menuInnerWrapper.querySelectorAll(".dropdown-menu-item:not([style*='display: none'])");
+    if (e.keyCode === 40) { 
+      e.preventDefault();
+      this.currentFocus = this.currentFocus === items.length - 1 ? 0 : this.currentFocus + 1;
+      this.addActive(items);
+    } else if (e.keyCode === 38) {
+      e.preventDefault();
+      this.currentFocus = this.currentFocus <= 0 ? items.length - 1 : this.currentFocus - 1;
+      this.addActive(items);
+    } else if (e.keyCode === 13) {
+      e.preventDefault();
+      if (this.currentFocus > -1 && this.currentFocus < items.length) {
+        items[this.currentFocus].click();
+      }
+    }
+}
+
+  handleKeyDown(e, menuInnerWrapper) {
+    this.handleSearchKeyDown(e, menuInnerWrapper);
+  }
+
+  addActive(items) {
+    if (!items || this.currentFocus >= items.length) this.currentFocus = 0;
+    if (this.currentFocus < 0) this.currentFocus = items.length - 1;
+
+    items.forEach((item, index) => {
+      item.classList.remove("is-select");
+      if (index === this.currentFocus) {
+        item.classList.add("is-select");
+        item.scrollIntoView({ block: "nearest" });
+      }
+    });
+
   }
 
 }
