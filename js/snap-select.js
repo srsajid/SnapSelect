@@ -1,14 +1,3 @@
-const form = document.querySelector(".form");
-const dropdowns = document.querySelectorAll(".dropdown");
-
-
-
-// Check if Form Element Exist on Page
-if (form !== null) {
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-  });
-}
 
 class SnapSelect {
   constructor(dropdown) {
@@ -33,6 +22,10 @@ class SnapSelect {
     selected.classList.add("dropdown-select");
     selected.textContent = optionsArr[0].textContent;
     customDropdown.appendChild(selected);
+    selected.tabIndex = this.dropdown.tabIndex
+    selected.addEventListener("keydown", (e) => {
+      console.log(e)
+    });
 
     let menu = this.menu;
 
@@ -60,8 +53,10 @@ class SnapSelect {
       menuInnerWrapper.appendChild(item);
 
       item.addEventListener("click", () => {
-          this.setSelected(item)
+        this.setSelected(item)
       });
+
+      if(option.selected)  this.setSelected(item)
     });
 
     menuInnerWrapper.querySelector("div").classList.add("selected");
@@ -71,7 +66,7 @@ class SnapSelect {
     });
 
     menu.addEventListener("keydown", (e) => {
-      this.handleKeyDown(e, menuInnerWrapper);
+      if(this.handleSearchKeyDown(e.key)) e.preventDefault()
     });
 
     document.addEventListener("click", (e) => {
@@ -88,6 +83,7 @@ class SnapSelect {
       menu.style.display = "block";
       menu.querySelector("input").focus();
     }
+    this.clearActive()
   }
 
 
@@ -103,7 +99,7 @@ class SnapSelect {
         div.classList.remove("is-select");
       }
       if (div.offsetParent === null) {
-        div.style.display = "block";
+        div.style.display = "";
       }
     });
     item.classList.add("is-select");
@@ -125,7 +121,7 @@ class SnapSelect {
         customOptions[itemsArr.indexOf(option)].style.display = "none";
       } else {
         if (customOptions[itemsArr.indexOf(option)].offsetParent === null) {
-          customOptions[itemsArr.indexOf(option)].style.display = "block";
+           customOptions[itemsArr.indexOf(option)].style.display = ""
         }
       }
     });
@@ -142,48 +138,48 @@ class SnapSelect {
     }
   }
 
-handleSearchKeyDown(e, menuInnerWrapper) {
-    const items = menuInnerWrapper.querySelectorAll(".dropdown-menu-item:not([style*='display: none'])");
-    if (e.keyCode === 40) { 
-      e.preventDefault();
+  handleSearchKeyDown(keyCode) {
+    console.log(keyCode)
+    const items = this.menu.querySelectorAll(".dropdown-menu-item:not([style*='display: none'])");
+    let isHandled = false
+    if (keyCode === 'ArrowDown') {
       this.currentFocus = this.currentFocus === items.length - 1 ? 0 : this.currentFocus + 1;
       this.addActive(items);
-    } else if (e.keyCode === 38) {
-      e.preventDefault();
+      isHandled = true
+    } else if (keyCode === "ArrowUp") {
       this.currentFocus = this.currentFocus <= 0 ? items.length - 1 : this.currentFocus - 1;
       this.addActive(items);
-    } else if (e.keyCode === 13) {
-      e.preventDefault();
+      isHandled = true
+    } else if (keyCode === "Enter") {
       if (this.currentFocus > -1 && this.currentFocus < items.length) {
         items[this.currentFocus].click();
       }
+      isHandled = true
+    } else if (keyCode === "Escape") {
+      this.toggleDropdown()
     }
-}
 
-  handleKeyDown(e, menuInnerWrapper) {
-    this.handleSearchKeyDown(e, menuInnerWrapper);
+    return isHandled
+  }
+
+  clearActive() {
+    if(this.activeItem) this.activeItem.classList.remove("active")
+    this.currentFocus = -1
+    this.activeItem = null
   }
 
   addActive(items) {
     if (!items || this.currentFocus >= items.length) this.currentFocus = 0;
     if (this.currentFocus < 0) this.currentFocus = items.length - 1;
 
-    items.forEach((item, index) => {
-      item.classList.remove("is-select");
-      if (index === this.currentFocus) {
-        item.classList.add("is-select");
-        item.scrollIntoView({ block: "nearest" });
-      }
-    });
+    if(items.length === 0) { return }
+    let item = items[this.currentFocus]
 
+    if(this.activeItem) this.activeItem.classList.remove("active")
+
+    item.classList.add("active")
+    item.scrollIntoView({ block: "nearest" });
+    this.activeItem = item
   }
 
-}
-
-
-// Loop Dropdowns and Create Custom Dropdown for each Select Element
-if (dropdowns.length > 0) {
-  dropdowns.forEach((dropdown) => {
-    new SnapSelect(dropdown);
-  });
 }

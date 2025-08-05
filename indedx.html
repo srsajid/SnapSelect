@@ -7,6 +7,7 @@
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/snap-select.css">
 </head>
 
 <body>
@@ -16,7 +17,6 @@
         <div class="form-group">
           <span class="form-arrow"></span>
           <select name="country" id="country" class="dropdown">
-            <option disabled>Select your country</option>
             <option value="Afghanistan">Afghanistan</option>
             <option value="Albania">Albania</option>
             <option value="Algeria">Algeria</option>
@@ -33,7 +33,7 @@
             <option value="Azerbaijan">Azerbaijan</option>
             <option value="Bahamas">Bahamas</option>
             <option value="Bahrain">Bahrain</option>
-            <option value="Bangladesh">Bangladesh</option>
+            <option value="Bangladesh" selected>Bangladesh</option>
             <option value="Barbados">Barbados</option>
             <option value="Belarus">Belarus</option>
             <option value="Belgium">Belgium</option>
@@ -222,7 +222,20 @@
     </div>
   </section>
 
-  <script src="js/app.js" async defer></script>
+  <script src="js/snap-select.js" ></script>
+<script type="text/javascript">
+  const form = document.querySelector(".form");
+  const dropdowns = document.querySelectorAll(".dropdown");
+
+
+  // Loop Dropdowns and Create Custom Dropdown for each Select Element
+  if (dropdowns.length > 0) {
+    dropdowns.forEach((dropdown) => {
+      new SnapSelect(dropdown);
+    });
+  }
+
+</script>
 </body>
 
 </html>
