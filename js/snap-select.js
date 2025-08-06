@@ -20,11 +20,10 @@ class SnapSelect {
 
     const selected = this.selected
     selected.classList.add("dropdown-select");
-    selected.textContent = optionsArr[0].textContent;
     customDropdown.appendChild(selected);
     selected.tabIndex = this.dropdown.tabIndex
     selected.addEventListener("keydown", (e) => {
-      console.log(e)
+      if(this.handleKeyDown(e.key)) e.preventDefault()
     });
 
     let menu = this.menu;
@@ -59,7 +58,9 @@ class SnapSelect {
       if(option.selected)  this.setSelected(item)
     });
 
-    menuInnerWrapper.querySelector("div").classList.add("selected");
+    if(!this.selectedItem) {
+      this.setSelected( menuInnerWrapper.querySelector("div"))
+    }
 
     search.addEventListener("input", () => {
       this.filterItems(search.value)
@@ -88,6 +89,7 @@ class SnapSelect {
 
 
   setSelected(item) {
+    if(!item) return
     const value = item.dataset.value;
     this.selected.textContent = item.textContent;
     this.dropdown.value = value;
@@ -103,6 +105,7 @@ class SnapSelect {
       }
     });
     item.classList.add("is-select");
+    this.selectedItem = item
   }
 
   filterItems(value) {
@@ -159,6 +162,22 @@ class SnapSelect {
       this.toggleDropdown()
     }
 
+    return isHandled
+  }
+
+  handleKeyDown(keyCode) {
+    console.log(keyCode)
+    let isHandled = false
+    if (keyCode === 'ArrowDown') {
+      this.setSelected(this.selectedItem.nextSibling)
+      isHandled = true
+    } else if (keyCode === "ArrowUp") {
+      this.setSelected(this.selectedItem.previousSibling)
+      isHandled = true
+    } else if (keyCode === "Enter") {
+      this.toggleDropdown()
+      isHandled = true
+    }
     return isHandled
   }
 
