@@ -15,11 +15,11 @@ class SnapSelect {
     const optionsArr = this.optionsArr
 
     const customDropdown = document.createElement("div");
-    customDropdown.classList.add("dropdown");
+    customDropdown.classList.add("snap-drpd");
     this.dropdown.insertAdjacentElement("afterend", customDropdown);
 
     const selected = this.selected
-    selected.classList.add("dropdown-select");
+    selected.classList.add("snap-drpd-sel");
     customDropdown.appendChild(selected);
     selected.tabIndex = this.dropdown.tabIndex
     selected.addEventListener("keydown", (e) => {
@@ -28,7 +28,7 @@ class SnapSelect {
 
     let menu = this.menu;
 
-    menu.classList.add("dropdown-menu");
+    menu.classList.add("snap-drpd-menu");
     customDropdown.appendChild(menu);
     selected.addEventListener("click", () => {
       this.toggleDropdown(menu)
@@ -37,16 +37,16 @@ class SnapSelect {
     const search = document.createElement("input");
     search.placeholder = "Search...";
     search.type = "text";
-    search.classList.add("dropdown-menu-search");
+    search.classList.add("snap-drpd-search");
     menu.appendChild(search);
 
     const menuInnerWrapper = document.createElement("div");
-    menuInnerWrapper.classList.add("dropdown-menu-inner");
+    menuInnerWrapper.classList.add("snap-drpd-inn");
     menu.appendChild(menuInnerWrapper);
 
     optionsArr.forEach((option) => {
       const item = document.createElement("div");
-      item.classList.add("dropdown-menu-item");
+      item.classList.add("snap-drpd-item");
       item.dataset.value = option.value;
       item.textContent = option.textContent;
       menuInnerWrapper.appendChild(item);
@@ -112,7 +112,7 @@ class SnapSelect {
     let itemsArr = this.optionsArr
     let menu = this.menu
 
-    const customOptions = menu.querySelectorAll(".dropdown-menu-inner div");
+    const customOptions = menu.querySelectorAll(".snap-drpd-inn div");
     value = value.toLowerCase();
     const filteredItems = itemsArr.filter((item) =>
       item.value.toLowerCase().includes(value)
@@ -133,7 +133,7 @@ class SnapSelect {
   closeIfClickedOutside(target) {
     let menu = this.menu
     if (
-      target.closest(".dropdown") === null &&
+      target.closest(".snap-drpd") === null &&
       target.target !== this &&
       menu.offsetParent !== null
     ) {
@@ -143,7 +143,7 @@ class SnapSelect {
 
   handleSearchKeyDown(keyCode) {
     console.log(keyCode)
-    const items = this.menu.querySelectorAll(".dropdown-menu-item:not([style*='display: none'])");
+    const items = this.menu.querySelectorAll(".snap-drpd-item:not([style*='display: none'])");
     let isHandled = false
     if (keyCode === 'ArrowDown') {
       this.currentFocus = this.currentFocus === items.length - 1 ? 0 : this.currentFocus + 1;

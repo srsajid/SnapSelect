@@ -16,7 +16,7 @@
       <form name="countries" class="form" id="form">
         <div class="form-group">
           <span class="form-arrow"></span>
-          <select name="country" id="country" class="dropdown">
+          <select name="country" id="country" class="snap-drpd">
             <option value="Afghanistan">Afghanistan</option>
             <option value="Albania">Albania</option>
             <option value="Algeria">Algeria</option>
@@ -33,7 +33,7 @@
             <option value="Azerbaijan">Azerbaijan</option>
             <option value="Bahamas">Bahamas</option>
             <option value="Bahrain">Bahrain</option>
-            <option value="Bangladesh" >Bangladesh</option>
+            <option value="Bangladesh">Bangladesh</option>
             <option value="Barbados">Barbados</option>
             <option value="Belarus">Belarus</option>
             <option value="Belgium">Belgium</option>
@@ -218,25 +218,24 @@
             <option value="Zimbabwe">Zimbabwe</option>
           </select>
         </div>
-
       </form>
     </div>
   </section>
 
-  <script src="js/snap-select.js" ></script>
-<script type="text/javascript">
-  const form = document.querySelector(".form");
-  const dropdowns = document.querySelectorAll(".dropdown");
+  <script src="js/snap-select.js"></script>
+  <script type="text/javascript">
+    const form = document.querySelector(".form");
+    const dropdowns = document.querySelectorAll(".snap-drpd");
 
 
-  // Loop Dropdowns and Create Custom Dropdown for each Select Element
-  if (dropdowns.length > 0) {
-    dropdowns.forEach((dropdown) => {
-      new SnapSelect(dropdown);
-    });
-  }
+    // Loop Dropdowns and Create Custom Dropdown for each Select Element
+    if (dropdowns.length > 0) {
+      dropdowns.forEach((dropdown) => {
+        new SnapSelect(dropdown);
+      });
+    }
 
-</script>
+  </script>
 </body>
 
 </html>
