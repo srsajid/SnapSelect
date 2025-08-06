@@ -115,7 +115,7 @@ class SnapSelect {
     const customOptions = menu.querySelectorAll(".snap-drpd-inn div");
     value = value.toLowerCase();
     const filteredItems = itemsArr.filter((item) =>
-      item.value.toLowerCase().includes(value)
+      item.textContent.toLowerCase().includes(value)
     );
     const indexesArr = filteredItems.map((item) => itemsArr.indexOf(item));
 
