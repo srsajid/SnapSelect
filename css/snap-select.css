@@ -1,5 +1,6 @@
 .snap-drpd {
   position: relative;
+  max-width:450px;
 }
 .snap-drpd:after {
     content: "";
