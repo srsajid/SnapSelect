@@ -54,6 +54,7 @@
   transition: all 0.2s ease-in-out;
 }
 .snap-drpd-item:hover {
+  cursor: pointer;
   background-color:rgba(55,73,187,.05);
 }
 .snap-drpd-item.is-select,.snap-drpd-item.active, .snap-drpd-item.is-select:hover {
