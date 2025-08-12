@@ -1,4 +1,3 @@
-"use strict";
 class SnapSelect {
   constructor(dropdown) {
     const options = dropdown.querySelectorAll("option");
@@ -106,7 +105,10 @@ class SnapSelect {
     });
     item.classList.add("is-select");
     if(this.selectedItem !== undefined && this.selectedItem !== item) {
-      const changeEvent = new Event('change');
+      const changeEvent = new Event('change', {
+        bubbles: true,
+        cancelable: true
+      });
       this.dropdown.dispatchEvent(changeEvent);
     }
     this.selectedItem = item
