@@ -105,6 +105,10 @@ class SnapSelect {
       }
     });
     item.classList.add("is-select");
+    if(this.selectedItem !== undefined && this.selectedItem !== item) {
+      const changeEvent = new Event('change');
+      this.dropdown.dispatchEvent(changeEvent);
+    }
     this.selectedItem = item
   }
 
